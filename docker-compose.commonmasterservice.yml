@@ -1,10 +1,10 @@
 services:
-  studentservice:
+  commonmasterservice:
     build:
       context: .
       dockerfile: Dockerfile
-    image: studentservice:latest
-    container_name: studentservice
+    image: commonmasterservice:latest
+    container_name: commonmasterservice
     ports:
       - "8084:8084"
     networks:
