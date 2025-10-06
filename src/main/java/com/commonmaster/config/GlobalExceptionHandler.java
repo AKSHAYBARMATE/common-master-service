@@ -1,26 +1,27 @@
 package com.commonmaster.config;
 
-import com.commonmaster.reponse.StandardResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@ControllerAdvice
-public class GlobalExceptionHandler {
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+@Configuration
+public class CorsConfig {
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<StandardResponse<?>> handleRuntimeException(RuntimeException ex) {
-        logger.error("Unhandled RuntimeException: {}", ex.getMessage(), ex);
-        StandardResponse<Void> response = StandardResponse.error(
-                ex.getMessage() != null ? ex.getMessage() : "Internal server error",
-                "RUNTIME_EXCEPTION",
-                null
-        );
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins(
+                                "http://localhost:92",       // Your React app (local)
+                                "http://100.96.183.108"   // Nginx or server IP
+                        )
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
+            }
+        };
     }
 }
-
