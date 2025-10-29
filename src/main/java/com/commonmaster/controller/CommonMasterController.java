@@ -10,7 +10,7 @@
     import java.util.List;
 
     @RestController
-    @RequestMapping("/sms/api/v1/common-master")
+    @RequestMapping("/api/v1/common-master")
     public class CommonMasterController {
         private final CommonMasterService commonMasterService;
 
