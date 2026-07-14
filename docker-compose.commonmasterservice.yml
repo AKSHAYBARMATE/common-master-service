@@ -11,6 +11,7 @@ services:
       - dokploy-network
       - updated_orgadmin_rmscadminnetwork
     environment:
+      JAVA_TOOL_OPTIONS: "-Xmx384m -Xms256m"
       # Eureka Configuration
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://serviceregistry:8761/eureka
       EUREKA_CLIENT_REGISTER_WITH_EUREKA: "true"
